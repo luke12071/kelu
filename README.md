@@ -1,5 +1,5 @@
 # kelu
-路由器插件
+#*路由器插件
 
 功能介绍:实现统计设备上网时长 、dns请求 、网络过滤、抓包分析; 支持自定义背景、数据保存时间修改、支持数据导入恢复,导出备份、修改密码等功能.
 
@@ -165,7 +165,7 @@ CONTENT_LENGTH=0 sh -c '. /usr/sbin/devdash.sh; do_bgset'
 - 域名规范化：`norm_dom()` 自动剥掉 `https://`、路径、端口、大小写；校验非法字符（`..`、`--`、首尾点）直接拒绝
 - 已知坑：BusyBox `tr '[:upper:]' '[:lower:]'` 字符类会乱码（`p`→`w`），必须用 `tr 'A-Z' 'a-z'`
 
-##  八、CGI 认证
+## 八、CGI 认证
 
 `/www/cgi-bin/devdash` 内置 Basic Auth：
 - 用户名 `admin`，密码为 `AUTH_HASH` 对应的 sha256（当前值 `ab23e13367...`）
