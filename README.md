@@ -6,15 +6,15 @@
 
 # kelu设备监控仪表盘维护记录:
 <img width="1507" height="1309" alt="截屏2026-08-03 12 17 04" src="https://github.com/user-attachments/assets/c5e6e6c3-0d5d-4b90-93e3-a3af9eb50490" />
-> 2026-08-03 更名：局域网设备监控仪表盘 → **kelu设备监控仪表盘**；页眉已嵌入作者邮箱 `xinkeji139577@sina.com`
+>1、 2026-08-03 更名：局域网设备监控仪表盘 → **kelu设备监控仪表盘**；页眉已嵌入作者邮箱 `xinkeji139577@sina.com`
 
-> 2026-08-03 二改：浏览器标题改为「kelu监控」；页面板块按权重重排（设备列表/DNS 概览/趋势图表在前，抓包/过滤/保存设置在后）；「生成」行字体改深黑色 `#111`
+> 2、2026-08-03 二改：浏览器标题改为「kelu监控」；页面板块按权重重排（设备列表/DNS 概览/趋势图表在前，抓包/过滤/保存设置在后）；「生成」行字体改深黑色 `#111`
 > 
-> 2026-08-03 三改：新增「备份导出 / 导入恢复」（.blocklist、.retention、devices.tsv、events.log、.bgimg 打包 tar.gz）；新增「设为默认背景」将当前背景持久化到服务端 `.bgimg`，页面自动加载；新增「备份与恢复」面板；CGI 入口增加 `export=1`/`import=1`/`bgset=1` 动作分发
+> 3、2026-08-03 三改：新增「备份导出 / 导入恢复」（.blocklist、.retention、devices.tsv、events.log、.bgimg 打包 tar.gz）；新增「设为默认背景」将当前背景持久化到服务端 `.bgimg`，页面自动加载；新增「备份与恢复」面板；CGI 入口增加 `export=1`/`import=1`/`bgset=1` 动作分发
 > 
-> 2026-08-03 四改（1.0.1）：修复「设置背景图片后自动刷新失效」。原因：背景以 base64 data-URL 存浏览器 `localStorage`，大图超配额（约 5MB）时 `setItem` 抛异常，上传后 60s 自动刷新即丢失。修复：上传时用 canvas 压缩（最长边 1920px、JPEG 0.82；≤300KB 原样保留），并自动 `POST ?bgset=1` 持久化到服务端 `.bgimg`，刷新由服务端兜底恢复；`applyBg` 对 localStorage 写入加 try/catch 防配额异常。打包 1.0.1-1 并已重装。
+> 4、2026-08-03 四改（1.0.1）：修复「设置背景图片后自动刷新失效」。原因：背景以 base64 data-URL 存浏览器 `localStorage`，大图超配额（约 5MB）时 `setItem` 抛异常，上传后 60s 自动刷新即丢失。修复：上传时用 canvas 压缩（最长边 1920px、JPEG 0.82；≤300KB 原样保留），并自动 `POST ?bgset=1` 持久化到服务端 `.bgimg`，刷新由服务端兜底恢复；`applyBg` 对 localStorage 写入加 try/catch 防配额异常。打包 1.0.1-1 并已重装。
 > 
-> 2026-08-03 五改（1.0.1）：① 图表 tooltip 改为绿底（#4caf50）黑字加粗；② 顶栏移除「备份导出/导入恢复」（移至「备份与恢复」面板，功能不变），按钮包入 `.topbtns` flex 容器统一 10px 间距；③ 设备列表可折叠（点击标题，状态存 `localStorage.dash-devfold`）；④ 新增「🔑 修改密码」按钮（`?passwd=1` POST 新密码 → sha256 → 写入 `/etc/devdash.conf` 的 `DEVDASH_HASH`，下次登录生效）。
+> 5、2026-08-03 五改（1.0.1）：① 图表 tooltip 改为绿底（#4caf50）黑字加粗；② 顶栏移除「备份导出/导入恢复」（移至「备份与恢复」面板，功能不变），按钮包入 `.topbtns` flex 容器统一 10px 间距；③ 设备列表可折叠（点击标题，状态存 `localStorage.dash-devfold`）；④ 新增「🔑 修改密码」按钮（`?passwd=1` POST 新密码 → sha256 → 写入 `/etc/devdash.conf` 的 `DEVDASH_HASH`，下次登录生效）。
 
 ## 一、功能总览
 
