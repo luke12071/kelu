@@ -1,6 +1,8 @@
 # kelu
 路由器插件
-# kelu设备监控仪表盘（devdash）维护记录
+# kelu设备监控仪表盘维护记录
+<img width="1507" height="1309" alt="截屏2026-08-03 12 17 04" src="https://github.com/user-attachments/assets/c5e6e6c3-0d5d-4b90-93e3-a3af9eb50490" />
+
 
 > 2026-08-03 更名：局域网设备监控仪表盘 → **kelu设备监控仪表盘**；页眉已嵌入个人邮箱 `xinkeji139577@sina.com`
 > 2026-08-03 二改：浏览器标题改为「kelu监控」；页面板块按权重重排（设备列表/DNS 概览/趋势图表在前，抓包/过滤/保存设置在后）；「生成」行字体改深黑色 `#111`
