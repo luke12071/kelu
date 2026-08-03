@@ -79,7 +79,7 @@ H 03 192.168.9.100 68
 
 ## 五、主题背景图按钮（本次新增）
 
-页面右上角新增两个按钮：
+(1)页面右上角新增两个按钮：
 - **🖼 背景图**：点击选择本地图片上传，作为整页背景
 - **✕ 清除背景**：恢复默认纯色背景
 - **📌 设为默认背景**：把当前浏览器背景图持久化到服务端 `$BASE/.bgimg`，所有访问者刷新后自动加载
@@ -91,7 +91,7 @@ H 03 192.168.9.100 68
 - `#bgveil` 半透明遮罩层保证前景文字可读（暗色 0.72 / 亮色 0.76）
 - 背景仅存于浏览器本地，不写服务器文件
 
-## 五之二、备份导出 / 导入恢复（本次新增）
+(2)、备份导出 / 导入恢复（本次新增）
 
 页面右上角及「备份与恢复」面板提供：
 - **💾 备份导出**：`?export=1`，把 `.blocklist .retention devices.tsv events.log .bgimg` 打包为 `devdash-backup-YYYYMMDD-HHMMSS.tar.gz` 下载（`Content-Disposition: attachment`）
@@ -113,7 +113,7 @@ CGI 动作分发：`/www/cgi-bin/devdash` 在 Basic Auth 通过后按 `QUERY_STR
 
 ## 七、维护命令
 
-```sh
+(1)```sh
 # 重启 devmon 守护
 /etc/init.d/devmon restart
 
@@ -144,7 +144,7 @@ echo -n 'url(data:image/png;base64,...)' | CONTENT_LENGTH=<长度> sh -c '. /usr
 CONTENT_LENGTH=0 sh -c '. /usr/sbin/devdash.sh; do_bgset'
 ```
 
-## 七之二、网址屏蔽机制
+(2)、网址屏蔽机制
 
 - 屏蔽列表：`$BASE/.blocklist`（每行一个域名）
 - 屏蔽规则写入 dnsmasq conf-dir（`/tmp/dnsmasq.cfg*.d/devdash-block.conf`）：
