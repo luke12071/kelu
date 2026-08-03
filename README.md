@@ -1,8 +1,9 @@
 # kelu
-#*路由器插件
-
+#路由器插件
 功能介绍:实现统计设备上网时长 、dns请求 、网络过滤、抓包分析; 支持自定义背景、数据保存时间修改、支持数据导入恢复,导出备份、修改密码等功能.
-
+安装指南:
+下载run包至路由器文件夹,终端切换至相应文件夹,执行命令:sh ./devdash-immortalwrt-1.0.2.run
+<img width="939" height="404" alt="截屏2026-08-03 17 12 37" src="https://github.com/user-attachments/assets/cfe91e31-17cb-4513-9eed-c6f25a1d935b" />
 
 # kelu设备监控仪表盘维护记录:
 <img width="1507" height="1309" alt="截屏2026-08-03 12 17 04" src="https://github.com/user-attachments/assets/c5e6e6c3-0d5d-4b90-93e3-a3af9eb50490" />
