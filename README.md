@@ -2,9 +2,7 @@
 路由器插件
 # kelu设备监控仪表盘维护记录
 <img width="1507" height="1309" alt="截屏2026-08-03 12 17 04" src="https://github.com/user-attachments/assets/c5e6e6c3-0d5d-4b90-93e3-a3af9eb50490" />
-
-
-> 2026-08-03 更名：局域网设备监控仪表盘 → **kelu设备监控仪表盘**；页眉已嵌入个人邮箱 `xinkeji139577@sina.com`
+> 2026-08-03 更名：局域网设备监控仪表盘 → **kelu设备监控仪表盘**；页眉已嵌入作者邮箱 `xinkeji139577@sina.com`
 > 2026-08-03 二改：浏览器标题改为「kelu监控」；页面板块按权重重排（设备列表/DNS 概览/趋势图表在前，抓包/过滤/保存设置在后）；「生成」行字体改深黑色 `#111`
 > 2026-08-03 三改：新增「备份导出 / 导入恢复」（.blocklist、.retention、devices.tsv、events.log、.bgimg 打包 tar.gz）；新增「设为默认背景」将当前背景持久化到服务端 `.bgimg`，页面自动加载；新增「备份与恢复」面板；CGI 入口增加 `export=1`/`import=1`/`bgset=1` 动作分发
 > 2026-08-03 四改（1.0.1）：修复「设置背景图片后自动刷新失效」。原因：背景以 base64 data-URL 存浏览器 `localStorage`，大图超配额（约 5MB）时 `setItem` 抛异常，上传后 60s 自动刷新即丢失。修复：上传时用 canvas 压缩（最长边 1920px、JPEG 0.82；≤300KB 原样保留），并自动 `POST ?bgset=1` 持久化到服务端 `.bgimg`，刷新由服务端兜底恢复；`applyBg` 对 localStorage 写入加 try/catch 防配额异常。打包 1.0.1-1 并已重装。
@@ -115,7 +113,7 @@ CGI 动作分发：`/www/cgi-bin/devdash` 在 Basic Auth 通过后按 `QUERY_STR
 
 ## 七、维护命令
 
-(1)```sh
+(1)sh
 # 重启 devmon 守护
 /etc/init.d/devmon restart
 
@@ -155,7 +153,7 @@ CONTENT_LENGTH=0 sh -c '. /usr/sbin/devdash.sh; do_bgset'
 - 域名规范化：`norm_dom()` 自动剥掉 `https://`、路径、端口、大小写；校验非法字符（`..`、`--`、首尾点）直接拒绝
 - 已知坑：BusyBox `tr '[:upper:]' '[:lower:]'` 字符类会乱码（`p`→`w`），必须用 `tr 'A-Z' 'a-z'`
 
-## 八、CGI 认证
+##  八、CGI 认证
 
 `/www/cgi-bin/devdash` 内置 Basic Auth：
 - 用户名 `admin`，密码为 `AUTH_HASH` 对应的 sha256（当前值 `ab23e13367...`）
