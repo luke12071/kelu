@@ -156,10 +156,8 @@ cd /mnt/usb2_2-4/Public/device-monitor && CONTENT_LENGTH=$(wc -c < /tmp/devdash-
 ### 设置/清除默认背景（等效页面操作）
 echo -n 'url(data:image/png;base64,...)' | CONTENT_LENGTH=<长度> sh -c '. /usr/sbin/devdash.sh; do_bgset'
 CONTENT_LENGTH=0 sh -c '. /usr/sbin/devdash.sh; do_bgset'
-```
 
 (2)、网址屏蔽机制
-
 - 屏蔽列表：`$BASE/.blocklist`（每行一个域名）
 - 屏蔽规则写入 dnsmasq conf-dir（`/tmp/dnsmasq.cfg*.d/devdash-block.conf`）：
   - `address=/example.com/0.0.0.0` 与 `address=/example.com/::` 双重屏蔽 IPv4/IPv6
