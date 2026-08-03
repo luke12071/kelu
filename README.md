@@ -122,32 +122,32 @@ CGI 动作分发：`/www/cgi-bin/devdash` 在 Basic Auth 通过后按 `QUERY_STR
 ## 七、维护命令
 
 (1)sh
-# 重启 devmon 守护
+### 重启 devmon 守护
 /etc/init.d/devmon restart
 
-# 手动触发日志轮转
+### 手动触发日志轮转
 mv /mnt/usb2_2-4/Public/Downloads/access.log /mnt/usb2_2-4/Public/Downloads/access.log.$(date +%Y%m%d) && killall -HUP dnsmasq
 
-# 手动清理过期日志（按 .retention 天数）
+### 手动清理过期日志（按 .retention 天数）
 /usr/sbin/devlogclean.sh
 
-# 验证页面脚本语法
+### 验证页面脚本语法
 sh -n /usr/sbin/devdash.sh
 
-# 本地渲染测试
+### 本地渲染测试
 unset QUERY_STRING; . /usr/sbin/devdash.sh && gen > /tmp/test.html
 
-# 屏蔽/解除网址（等效页面操作）
+### 屏蔽/解除网址（等效页面操作）
 QUERY_STRING="block=example.com"; . /usr/sbin/devdash.sh && gen >/dev/null
 QUERY_STRING="unblock=example.com"; . /usr/sbin/devdash.sh && gen >/dev/null
 
-# 命令行备份导出（等价页面「导出备份」，纯 tar.gz 不含 HTTP 头）
+### 命令行备份导出（等价页面「导出备份」，纯 tar.gz 不含 HTTP 头）
 cd /mnt/usb2_2-4/Public/device-monitor && tar czf /tmp/devdash-backup.tar.gz .blocklist .retention devices.tsv events.log .bgimg 2>/dev/null || true
 
 # 命令行导入恢复（从备份文件读取，等价页面「导入恢复」）
 cd /mnt/usb2_2-4/Public/device-monitor && CONTENT_LENGTH=$(wc -c < /tmp/devdash-backup.tar.gz) sh -c '. /usr/sbin/devdash.sh; do_import' < /tmp/devdash-backup.tar.gz
 
-# 设置/清除默认背景（等效页面操作）
+### 设置/清除默认背景（等效页面操作）
 echo -n 'url(data:image/png;base64,...)' | CONTENT_LENGTH=<长度> sh -c '. /usr/sbin/devdash.sh; do_bgset'
 CONTENT_LENGTH=0 sh -c '. /usr/sbin/devdash.sh; do_bgset'
 ```
