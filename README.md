@@ -144,7 +144,7 @@ QUERY_STRING="unblock=example.com"; . /usr/sbin/devdash.sh && gen >/dev/null
 ### 命令行备份导出（等价页面「导出备份」，纯 tar.gz 不含 HTTP 头）
 cd /mnt/usb2_2-4/Public/device-monitor && tar czf /tmp/devdash-backup.tar.gz .blocklist .retention devices.tsv events.log .bgimg 2>/dev/null || true
 
-# 命令行导入恢复（从备份文件读取，等价页面「导入恢复」）
+###命令行导入恢复（从备份文件读取，等价页面「导入恢复」）
 cd /mnt/usb2_2-4/Public/device-monitor && CONTENT_LENGTH=$(wc -c < /tmp/devdash-backup.tar.gz) sh -c '. /usr/sbin/devdash.sh; do_import' < /tmp/devdash-backup.tar.gz
 
 ### 设置/清除默认背景（等效页面操作）
