@@ -40,7 +40,7 @@ postinst 自动：enable+start `devmon`/`devflow`、建数据目录、追加 cro
 ### 安装（ImmortalWrt 25.12+，apk）
 ```sh
 # 方式一（推荐，离线可用，不依赖仓库）：
-curl -o /tmp/d.run http://<IP>/download/devdash/immortalwrt/devdash-immortalwrt-1.0.6.run && sh /tmp/d.run
+curl -o /tmp/d.run https://github.com/luke12071/kelu/blob/main/version/2026.8.6/devdash-1.0.6/immortalwrt/devdash-immortalwrt-1.0.6.run && sh /tmp/d.run
 # 方式二（需仓库可用）：
 apk add --force-non-repository --allow-untrusted ./luci-app-devdash_1.0.6-r1_all.apk
 ```
