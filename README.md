@@ -2,11 +2,9 @@
 # kelu设备监控仪表盘（devdash）维护记录
 <img width="1635" height="1348" alt="截屏2026-08-06 09 31 31" src="https://github.com/user-attachments/assets/0fd7983a-7e4c-4f11-ae2a-81affe775b2b" />
 
-
-> 当前版本 **1.0.6**（2026-08-06）。访问 `http://<IP>/cgi-bin/devdash`，默认账号 `admin`（默认密码 `devdash`，登录后请修改）。
+> 当前版本 **1.0.8**（2026-08-06）。访问 `http://<IP>/cgi-bin/devdash`，默认账号 `admin`（默认密码 `devdash`，登录后请修改）。
 >
 > 简体中文 · 单文件 CGI 自包含应用，无 luci 菜单依赖。
-
 ## 一、功能总览
 
 | 分组 | 功能 |
@@ -31,18 +29,18 @@
 ### 安装（iStoreOS / OpenWrt，ipk）
 ```sh
 # 推荐：iStore 元信息包
-is-opkg install /path/app-meta-devdash_1.0.6-1_all.ipk
+is-opkg install /path/app-meta-devdash_1.0.8-1_all.ipk
 # 或直接 opkg
-opkg update && opkg install /path/luci-app-devdash_1.0.6-1_all.ipk
+opkg update && opkg install /path/luci-app-devdash_1.0.8-1_all.ipk
 ```
 postinst 自动：enable+start `devmon`/`devflow`、建数据目录、追加 cron（`devprobe.sh` 每 10 分钟预热缓存、`devlogclean.sh` 每天 3:15 清理）、升级时保留 `/etc/devdash.conf`。
 
 ### 安装（ImmortalWrt 25.12+，apk）
 ```sh
 # 方式一（推荐，离线可用，不依赖仓库）：
-curl -o /tmp/d.run https://github.com/luke12071/kelu/blob/main/version/2026.8.6/devdash-1.0.6/immortalwrt/devdash-immortalwrt-1.0.6.run && sh /tmp/d.run
+curl -o /tmp/d.run http://<IP>/download/devdash/immortalwrt/devdash-immortalwrt-1.0.8.run && sh /tmp/d.run
 # 方式二（需仓库可用）：
-apk add --force-non-repository --allow-untrusted ./luci-app-devdash_1.0.6-r1_all.apk
+apk add --force-non-repository --allow-untrusted ./luci-app-devdash_1.0.8-r1_all.apk
 ```
 `.run` 安装器：自包含部署到 /usr/sbin /www/cgi-bin /etc/init.d，首次安装生成随机密码并打印，自动启用服务 + 追加 cron。
 
@@ -103,15 +101,16 @@ CONTENT_LENGTH=$(wc -c < /tmp/devdash-backup.tar.gz) sh -c '. /usr/sbin/devdash.
 
 | 文件 | 说明 |
 |---|---|
-| `luci-app-devdash_1.0.6-1_all.ipk` / `app-meta-devdash_1.0.6-1_all.ipk` | 功能包 / iStore 元信息包（OpenWrt 新版 gzip tar 三层 ipk 格式） |
-| `luci-app-devdash_1.0.6-r1_all.apk` | APK v3（ImmortalWrt 25.12 原生，`apk mkpkg` 构建） |
-| `devdash-immortalwrt-1.0.6.run` | 自包含安装器（离线可用） |
+| `luci-app-devdash_1.0.8-1_all.ipk` / `app-meta-devdash_1.0.8-1_all.ipk` | 功能包 / iStore 元信息包（OpenWrt 新版 gzip tar 三层 ipk 格式） |
+| `luci-app-devdash_1.0.8-r1_all.apk` | APK v3（ImmortalWrt 25.12 原生，`apk mkpkg` 构建） |
+| `devdash-immortalwrt-1.0.8.run` | 自包含安装器（离线可用） |
 
 > APK v2 未提供：目标机 25.12 用 v3；`openwrt-ipk2apk.py` 产出的 v2 仍兼容旧 25.12 rc，需要时再补。旧版产物（≤1.0.5）部署时同步删除。
 
 ## 七、变更记录
 
-- **1.0.6（2026-08-06）** 新增：90 天流量统计周期（`fp=90d`，日汇总 `awk` 预生成 + 每天 1 次 date 优化）；登录页背景自定义（`.loginbg` + `do_loginset`）；无操作自动登出（`.session` 3 字段 `token|expiry|lastactive`，超时白名单 0/1/2/5/10/30/60 分钟，30s 节流刷新防 flash 磨损）；日志分页（每页 20 条 `pg=`，首页/上/下/末页控件）；默认背景双端一键（`bgset`+`loginset` 并行）；顶部 GitHub 按钮；**修复主题切换按钮丢失**（CSS/JS 引用了 `.themetgl` 但顶部未渲染按钮）；admin 下拉退出（`👤 用户名 ▾`）；页尾名言。**安全修复**：`?logout=1` 未认证可清空全部会话（无 Cookie `rm -f` + Cookie 正则注入 `^.*|` 全删）→ 改为 awk 精确匹配仅删当前 token；`.session` 重写后丢 600 权限 → 每次重写后 `chmod 600`；`bgset/loginset` 原始写入可注入 CSS → 写/读双端校验 `url(data:*` 前缀，非图片内容拒绝；`do_import` 符号链接（tar 可指向 `/etc/shadow` 被 cp 跟随泄漏）→ 跳过 symlink；失败登录延迟 1s 防爆破。
+- **1.0.8（2026-08-06）** **修复 ImmortalWrt 目标机“登录页正常、仪表盘 0 字节”**：根因是缓存新鲜度函数 `fresh()` 依赖 `stat -c %Y`，而目标机 ImmortalWrt 25.12 的 busybox 未编译 `stat` applet（`stat` 与 `busybox stat` 均 not found）→ 算术展开 `$(( $(date +%s) - $(stat -c %Y "$f") ))` 得空值 → `sh: arithmetic syntax error` → 整个 CGI 无输出（登录页/`do_flow` 不经过 `fresh()` 故正常）。修复：`fresh()` 改为多级回退 `stat -c %Y` → `date -r <file> +%s`（busybox/GNU date 均支持），文件缺失/非数值时返回 1。已在目标机实测：`gen()` 输出 363KB、HTTP 200 全板块正常。
+- **1.0.7（2026-08-06）** **修复 ImmortalWrt 目标机页面全空白**：根因是脚本含非 POSIX 语法，ImmortalWrt 25.12 的 busybox ash（无 ASH_BASH_COMPAT）在解析阶段报错 → `. /usr/sbin/devdash.sh` 失败 → CGI 无输出 → 空白页。本机 iStoreOS busybox 带 bash 兼容故能通过 `sh -n`，未暴露。修复：① 移除 2 处进程替换 `done < <(...)`（图表聚合循环），改为 heredoc（`done <<EOF`）保持变量作用域且 POSIX 兼容；② 登录页错误提示的 `${var//&/...}` 参数展开替换为 `sed`；③ `$(seq 0 23)` 替换为 `while` 循环。全脚本已扫描无进程替换/`[[`/`<<<`/`${var//}`/数组等 bash 专属语法，任意 POSIX sh 可解析。
 - **1.0.5（2026-08-05）** 修复流量页面空白根因（页面生成 15.5s 超 uhttpd CGI 超时被截断）→ TTL 磁盘缓存 + `buildcache` 预热，页面 1.5s；修复 devflow 重启流量清零（`lan_ips` 读错 ARP 列，`$4` 是 HWaddr，devices 在 `$NF`）→ `ip neigh` 首选 + ARP 回退；登录认证重做为自绘登录页 + HttpOnly Session Cookie（保留 Basic Auth 兜底）；修改密码模态表单（验旧密码）；默认密码统一 `admin/devdash`。
 - **1.0.4（2026-08-04）** 新增各设备实时流量 + 上下行流量汇总（`devflow.sh` 守护，nftables/iptables 计数，5s 采样，按日累计），左侧导航新增「📊 流量」分组。
 - **1.0.3（2026-08-03）** 左侧侧边栏导航（分组可折叠，`dash-view` 记忆，`?dev=/?cap=` 强制定位）；板块按权重重排。
