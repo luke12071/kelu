@@ -1,4 +1,4 @@
-[devdash-维护记录.md](https://github.com/user-attachments/files/30768633/devdash-.md)
+
 # kelu设备监控仪表盘（devdash）维护记录
 <img width="1635" height="1348" alt="截屏2026-08-06 09 31 31" src="https://github.com/user-attachments/assets/0fd7983a-7e4c-4f11-ae2a-81affe775b2b" />
 
